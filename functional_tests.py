@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
@@ -14,32 +16,37 @@ class NewVisitorTest(unittest.TestCase):
 
         #Does the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
-        self.fail('Finish the test!')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
 
         #Enter a to-do item
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
+        )
 
- #browser = webdriver.Firefox()
+        #"type "Buy cribbage boards" into a text box
+        inputbox.send_keys('Buy cribbage boards')
 
+        # hitting enter, the page updates and now the page lists "1: Buy cribbage boards" item in to-do list
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
- #browser.get('http://localhost:8000')
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Buy cribbage boards' for row in rows)
+        )
 
-#assert 'Django' in browser.title
+        # There is still a text box for another item.  Enter "Use cribbage board to play cribbage"
+        self.fail('Finish the test!')
 
-#Does the page title and header mention to-do lists
- #assert 'To-Do' in browser.title
+        #The page updates and shows both list items.
 
+        #The site has generated a unique URL  -- text explains this has happened
 
-#"type "Buy cribbage boards" into a text box
-
-# hitting enter, the page updates and now the page lists "1: Buy cribbage boards" item in to-do list
-
-# There is still a text box for another item.  Enter "Use cribbage board to play cribbage"
-
-#The page updates and shows both list items.
-
-#The site has generated a unique URL  -- text explains this has happened
-
-#visiting the URL the to-do list remains
+        #visiting the URL the to-do list remains
 if __name__ == '__main__':
     unittest.main()
 #The end
