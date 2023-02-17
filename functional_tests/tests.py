@@ -1,13 +1,15 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+#from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 #import unittest
 from selenium.common.exceptions import WebDriverException
 
-MAX_WAIT = 10
+MAX_WAIT = 200
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
+#class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -26,7 +28,7 @@ class NewVisitorTest(LiveServerTestCase):
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
                     raise e
-                time.sleep(0.5)
+                time.sleep(10)
     def test_can_start_a_list_for_one_user(self):
         #Go to homepage
         self.browser.get(self.live_server_url)
@@ -108,7 +110,29 @@ class NewVisitorTest(LiveServerTestCase):
         #visiting the URL the to-do list remains
 
 
-        self.fail('Finish the test!')
+        #self.fail('Finish the test!')
+    def test_layout_and_styling(self):
+        #go to homepage
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        #input box is nicely centered
+        inputbox = self.browser.find_element("id", "id_new_item")
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+        #start a new list: the input is centered there too
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element("id", "id_new_item")
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
 
 #The end
 
