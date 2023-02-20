@@ -4,3 +4,4 @@ vitualenv
 __pychache__
 *.pyc
 virtualenv
+/static
