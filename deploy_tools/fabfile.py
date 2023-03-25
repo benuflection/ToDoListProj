@@ -6,8 +6,8 @@ REPO_URL = 'https://github.com/benuflection/ToDoListProj'
 
 def deploy():
     ####   env.user replaced with hardcoded "mikede" because user is different on testing computer and server
-    ####site_folder = f'/home/{env.user}/sites/{env.host}'
-    site_folder = f'/home/mikede/sites/{env.host}'
+    site_folder = f'/home/{env.user}/sites/{env.host}'
+    #######site_folder = f'/home/mikede/sites/{env.host}'
     run(f'mkdir -p {site_folder}')
     with cd(site_folder):
         _get_latest_source()
