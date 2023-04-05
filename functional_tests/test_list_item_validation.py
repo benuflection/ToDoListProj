@@ -13,10 +13,10 @@ class ItemValidationTest(FunctionalTest):
         # home page refreshes. there is an error message
         self.wait_for(lambda: self.assertEqual(
             self.browser.find_element('css selector', '.has-error').text,
-            "you can't have and empty list item"
+            "You can't have an empty list item"
         ))
         #She tries again with a real item which works.
-        self.browser.find_element('id', 'Id_new_item').send_keys('Buy milk')
+        self.browser.find_element('id', 'id_new_item').send_keys('Buy milk')
         self.browser.find_element('id', 'id_new_item').send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
 
