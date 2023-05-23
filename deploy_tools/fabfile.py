@@ -5,6 +5,7 @@ import logging
 import paramiko
 from paramiko import BadHostKeyException
 logging.basicConfig(level=logging.DEBUG)
+import os
 #paramiko.util.log_to_file('demo.log')
 
 look_for_keys = False
@@ -14,7 +15,7 @@ REPO_URL = 'https://github.com/benuflection/ToDoListProj'
 #hardcoded user
 
 
-env.hosts = ['mikde@raspberrypi:22']
+env.hosts = ['mikede@raspberrypi:22']
 #env.passwords = {'mikede@raspberrypi:22': 'shittyshitterson'}
 env.passwords = {'mikede@192.168.1.9:22': 'shittyshitterson'}
 
@@ -56,6 +57,8 @@ def _create_or_update_dotenv():
             'abcdefghijklmnopqrstuvwxyz0123456789', k=50
         ))
         append('.env', f'DJANGO_SECRET_KEY={new_secret}')
+    email_password = os.environ['EMAIL_PASSWORD']
+    append('.env', f'EMAIL_PASSWORD={email_password}')
 
 def _update_static_files():
     run('./virtualenv/bin/python manage.py collectstatic --noinput')

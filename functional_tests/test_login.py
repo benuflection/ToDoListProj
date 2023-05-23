@@ -4,6 +4,8 @@ import re
 import poplib
 import time
 import os
+#import logging
+#logging.basicConfig(level=logging.DEBUG)
 
 
 from .base import FunctionalTest
@@ -59,8 +61,8 @@ class LoginTest(FunctionalTest):
             test_email = 'recent:hotrobotgames@gmail.com'
         else:
             test_email = 'edith@example.com'
-
         self.browser.get(self.live_server_url)
+
         self.browser.find_element('name', 'email').send_keys(test_email)
         self.browser.find_element('name', 'email').send_keys(Keys.ENTER)
 
