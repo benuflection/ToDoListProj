@@ -164,14 +164,8 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'text': ''})
         self.assertContains(response, escape(EMPTY_ITEM_ERROR))
 
-########## probably duplicated, currently only lives in ListViewTest class w/ItemForm as ExistingListItemForm
-    # def test_for_invalid_input_passes_form_to_template(self):
-    #     response = self.client.post('/lists/new', data={'text': ''})
-    #     self.assertIsInstance(response.context['form'], ItemForm)
+class MyListsTest(TestCase):
 
-# was here -- could be duplicated
-    # def test_displays_item_form(self):
-    #     list_ = List.objects.create()
-    #     response = self.client.get(f'/lists/{list_.id}/')
-    #     self.assertIsInstance(response.context['form'], ExistingListItemForm)
-    #     self.assertContains(response, 'name="text"')
+    def test_my_lists_url_renders_my_lists_template(self):
+        response = self.client.get('/lists/users/a@b.com/')
+        self.assertTemplateUsed(response, 'my_lists.html')
